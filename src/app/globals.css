@@ -46,6 +46,23 @@ body {
   font-family: var(--font-hanken), system-ui, sans-serif;
 }
 
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* native smooth anchors until Lenis (P3); reduced-motion users keep jumps */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 ::selection {
   background: var(--signal);
   color: var(--void);

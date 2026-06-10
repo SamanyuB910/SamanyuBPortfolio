@@ -36,7 +36,7 @@ export default async function WritingPage({ params }: Props) {
   return (
     <>
       <SiteNav />
-      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12">
+      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
         <Link href="/#writing" className="font-mono text-xs text-muted no-underline hover:text-ink">
           ← writing
         </Link>
@@ -45,7 +45,7 @@ export default async function WritingPage({ params }: Props) {
             {meta.date}
             {meta.status === "draft" && " · draft"}
           </p>
-          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             {meta.title}
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted">

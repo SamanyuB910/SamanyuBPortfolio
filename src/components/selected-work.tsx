@@ -4,44 +4,53 @@ import { getWork } from "@/lib/content";
 export function SelectedWork() {
   const work = getWork();
   return (
-    <section id="work" className="mx-auto w-full max-w-5xl px-5 py-16">
-      <h2 className="font-mono text-sm text-muted">01 — Selected work</h2>
-      <ol className="mt-8 space-y-12">
+    <section
+      id="work"
+      className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28"
+    >
+      <h2 className="font-mono text-xs tracking-widest text-muted">
+        01 — selected work
+      </h2>
+      <ol className="mt-10" data-ledger>
         {work.map((entry, i) => (
-          <li
-            key={entry.meta.slug}
-            className="grid gap-4 border-t border-gridline pt-6 sm:grid-cols-[auto_1fr_minmax(180px,auto)]"
-          >
-            <span className="font-mono text-sm text-muted">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <div className="max-w-xl">
-              <h3 className="font-display text-xl font-medium">
-                <Link
-                  href={`/work/${entry.meta.slug}`}
-                  className="text-ink no-underline hover:text-signal"
-                >
+          <li key={entry.meta.slug} className="group border-t border-gridline">
+            <Link
+              href={`/work/${entry.meta.slug}`}
+              className="grid gap-x-8 gap-y-4 py-8 no-underline sm:grid-cols-[3rem_1fr_minmax(200px,16rem)] sm:py-10"
+            >
+              <span
+                aria-hidden
+                className="font-mono text-sm text-muted transition-colors group-hover:text-signal"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="block max-w-xl">
+                <span className="block font-display text-2xl font-medium tracking-tight text-ink transition-colors group-hover:text-signal">
                   {entry.meta.title}
-                </Link>
-              </h3>
-              <p className="mt-1 font-mono text-xs text-muted">
-                {entry.meta.org} · {entry.meta.role} · {entry.meta.timeframe}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {entry.meta.summary}
-              </p>
-            </div>
-            <dl className="space-y-2 font-mono text-xs sm:text-right">
-              {entry.meta.metrics.map((m) => (
-                <div key={m.label}>
-                  <dd className="text-signal">{m.value}</dd>
-                  <dt className="text-muted">{m.label}</dt>
-                </div>
-              ))}
-              {entry.meta.provisional && (
-                <p className="text-muted italic">figures provisional</p>
-              )}
-            </dl>
+                </span>
+                <span className="mt-2 block font-mono text-xs text-muted">
+                  {entry.meta.org} · {entry.meta.timeframe}
+                </span>
+                <span className="mt-4 block text-sm leading-relaxed text-muted">
+                  {entry.meta.summary}
+                </span>
+              </span>
+              <span className="block space-y-3 font-mono text-xs sm:text-right">
+                {entry.meta.metrics.slice(0, 3).map((m) => (
+                  <span key={m.label} className="block">
+                    <span className="block text-base text-signal">
+                      {m.value}
+                    </span>
+                    <span className="block text-muted">{m.label}</span>
+                  </span>
+                ))}
+                {entry.meta.provisional && (
+                  <span className="block italic text-muted">
+                    figures provisional
+                  </span>
+                )}
+              </span>
+            </Link>
           </li>
         ))}
       </ol>

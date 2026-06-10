@@ -36,7 +36,7 @@ export default async function WorkPage({ params }: Props) {
   return (
     <>
       <SiteNav />
-      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12">
+      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
         <Link href="/#work" className="font-mono text-xs text-muted no-underline hover:text-ink">
           ← selected work
         </Link>
@@ -44,7 +44,7 @@ export default async function WorkPage({ params }: Props) {
           <p className="font-mono text-xs text-muted">
             {String(meta.order).padStart(2, "0")} · {meta.timeframe}
           </p>
-          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             {meta.title}
           </h1>
           <p className="mt-2 font-mono text-sm text-muted">
