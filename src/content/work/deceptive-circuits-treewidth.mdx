@@ -1,0 +1,40 @@
+---
+title: Graph-structural signatures of deceptive circuits in LLMs
+slug: deceptive-circuits-treewidth
+order: 3
+timeframe: May 2026
+org: Independent research
+role: Author
+summary: Treewidth and 17 other purely structural graph measures separate honest from deception-adjacent SAE feature circuits in GPT-2 at 80% accuracy (AUC 0.851), with honest computation measurably more entangled than confabulation.
+metrics:
+  - label: classification
+    value: "AUC 0.851"
+    detail: "80% accuracy, 18 structural measures, 183 co-activation graphs"
+  - label: treewidth alone
+    value: "78.7%"
+    detail: "single measure carries nearly all of the discriminative signal"
+  - label: effect size
+    value: "d = -1.24"
+    detail: "p < 1e-8, honest computation more entangled than confabulation"
+provisional: false
+stack: [Python, SAELens, TransformerLens, NetworkX, Numba]
+links:
+  - label: Code on GitHub
+    href: https://github.com/SamanyuB910
+---
+
+## Problem
+
+Mechanistic interpretability has reasonable tooling for extracting feature circuits from sparse autoencoders, and very little for characterizing what those circuits look like as graphs. I wanted to know whether topology alone — no feature labels, no semantics — discriminates honest behavior from deception-adjacent behavior in a language model. If it does, graph structure becomes a cheap monitoring signal that sidesteps the harder problem of interpreting individual features. As far as I can tell, this is the first application of treewidth analysis to SAE feature circuits.
+
+## Approach
+
+I built a set of 150 prompts eliciting honest and deception-adjacent behavior from GPT-2, extracted SAE feature activations with SAELens and TransformerLens, and constructed 183 feature co-activation graphs. For each graph I computed 18 structural measures, with treewidth — roughly, how far a graph is from being a tree — as the central one. Exact treewidth is NP-hard, so I implemented Numba-accelerated treewidth scoring to keep the full sweep tractable. The statistical pipeline runs Mann-Whitney U tests per measure with Bonferroni correction, then a random-forest classifier with ablation to attribute discriminative power to individual measures.
+
+## Results
+
+The 18 measures together classify honest versus deception-adjacent graphs at 80% accuracy (AUC 0.851). Treewidth alone captures 78.7%, so nearly all of the signal lives in one measure. The direction was the surprise: honest computation is measurably more entangled than confabulation (Cohen's d = -1.24, p < 1e-8). Honest answers recruit denser, less decomposable co-activation structure, while confabulation looks comparatively tree-like. The code is open-sourced with reproducible configs for every experiment.
+
+## Notes
+
+Standard caveats apply. The model is GPT-2, and "deception-adjacent" is a behavioral proxy, not verified deception. Co-activation graphs are correlational objects, not causal circuits, and 183 graphs is a small sample. I treat the entanglement result as a structural observation worth replicating on larger models, not as a deception detector.

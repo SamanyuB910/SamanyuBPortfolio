@@ -1,61 +1,27 @@
-# Samanyu Badam - Portfolio Website
+# sbadam.vercel.app
 
-A modern, responsive portfolio website built with Next.js, Tailwind CSS, and Framer Motion.
+Personal portfolio of Samanyu Badam — CS + Math at Georgia Tech. ML systems, SLAM factor graphs, LLM interpretability, combinatorics.
 
-## Features
+Design direction: **"Elimination Order"** — the hero is a force-directed graph that solves itself by min-fill variable elimination, which is literally the research it advertises.
 
-- 🌟 Modern, clean design inspired by professional portfolios
-- 🌙 Dark/Light mode toggle
-- 📱 Fully responsive design
-- ⚡ Smooth animations with Framer Motion
-- 🚀 Optimized for performance and SEO
-- 📧 Contact form integration with Formspree
+## Stack
 
-## Tech Stack
+Next.js 16 (App Router, TypeScript strict) · Tailwind CSS v4 (oklch `@theme` tokens) · Motion · GSAP ScrollTrigger (one sequence) · Lenis · MDX (gray-matter + zod + next-mdx-remote) · Resend contact action.
 
-- **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Theme**: next-themes for dark mode
-- **Deployment**: Vercel
+Fonts: Clash Grotesk (Fontshare, self-hosted) · Hanken Grotesk · Fragment Mono (Google).
 
-## Getting Started
+## Develop
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/samanyubadam/portfolio.git
-    cd portfolio
-    ```
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run graphs     # regenerate hero graph data (also runs on prebuild)
+npm run lint && npm run build
+```
 
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
+Contact form needs `RESEND_API_KEY` (see `.env.example`); without it the form degrades to a mailto hint.
 
-3. Run the development server:
-    ```bash
-    npm run dev
-    ```
+## Content
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Customization
-
-1. Update personal information in the components
-2. Add your resume PDF to the `public` folder
-3. Update social media links
-4. Configure Formspree for the contact form
-5. Add your own projects and experiences
-
-## Deployment
-
-Deploy easily on Vercel:
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy automatically
-
-## License
-
-MIT License - feel free to use this template for your own portfolio!
+- Case studies: `src/content/work/*.mdx` — metrics live in frontmatter; Kroger figures are provisional and edited there only.
+- Writing: `src/content/writing/*.mdx`.

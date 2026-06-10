@@ -1,0 +1,40 @@
+---
+title: Learning elimination orderings for SLAM factor graphs
+slug: slam-graph-transformer
+order: 2
+timeframe: Jan 2026 – present
+org: Frank Dellaert's lab, School of Interactive Computing, Georgia Tech
+role: Undergraduate Researcher
+summary: An RL-trained spectral-residual graph transformer that orders SLAM factor graphs, beating METIS on 90% of 404 held-out graphs with 24% lower mean max-clique size.
+metrics:
+  - label: vs METIS
+    value: "won on 90%"
+    detail: of 404 held-out graphs
+  - label: mean max-clique
+    value: "-24%"
+    detail: vs METIS on the same held-out set
+  - label: decoder runtime
+    value: "2–5× faster"
+    detail: within 7% of min-fill quality
+provisional: false
+stack: [Python, PyTorch, GTSAM, NetworkX]
+links:
+  - label: Code on GitHub
+    href: https://github.com/SamanyuB910
+---
+
+## Problem
+
+Sparse SLAM backends factor the system by eliminating variables one at a time, and the elimination order decides how much fill-in you pay for. A bad order produces large cliques in the Bayes tree, and clique size governs the cost of every subsequent linearization and incremental update. Practice today relies on two heuristic families: METIS-style nested dissection, which is fast and the default at scale, and greedy min-fill, which produces lower-treewidth orderings but rescans candidates after every elimination and is correspondingly slow. Neither is learned, and neither exploits the fact that SLAM graphs are not arbitrary sparse graphs — they are pose chains with loop closures.
+
+## Approach
+
+I designed a graph transformer that conditions on spectral-residual features of the factor graph and is trained with reinforcement learning to emit variable elimination orderings, with reward derived from the clique structure of the resulting elimination. Because per-vertex decoding is slow on large graphs, I also built a second decoder: the network predicts a partition of the graph, and a local min-fill refinement pass orders the variables inside each block. Both systems are evaluated across 9 SLAM benchmarks spanning 800 to 5,000 nodes, with GTSAM and NetworkX handling elimination and graph machinery. When training at one graph size failed to transfer to others, I used gradient-direction analysis to diagnose the cross-size generalization failure rather than guessing at hyperparameters.
+
+## Results
+
+The RL-trained transformer beats METIS on 90% of 404 held-out graphs, with 24% lower mean max-clique size. The neural-partition decoder with local min-fill refinement lands within 7% of full min-fill quality at 2–5× lower runtime, which is the operating point an incremental solver actually wants. A side finding turned out to be the cheapest result of the project: min-fill with randomized tie-breaking yields lower treewidth than the standard deterministic version. That is a zero-cost improvement to existing practice — no model, no training, one changed line in the heuristic.
+
+## Notes
+
+The cross-size generalization failure is real and unresolved: a policy trained on one size range degrades on another, and gradient-direction analysis localized the problem rather than fixing it. Closing that gap is the current focus. The randomized tie-breaking result also suggests reported min-fill baselines in this space are weaker than they need to be.

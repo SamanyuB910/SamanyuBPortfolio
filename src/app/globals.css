@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* `.light` on <html> is the light theme (next-themes); dark is the default. */
+@custom-variant light (&:where(.light, .light *));
+
+/*
+ * Elimination Order — design tokens.
+ * Dark is the default; `.light` on <html> flips the scheme (next-themes).
+ * --gridline is decorative only: never text, never interactive outlines.
+ */
+:root {
+  --void: oklch(0.16 0.015 250);
+  --surface: oklch(0.2 0.017 250);
+  --ink: oklch(0.94 0.01 250);
+  --muted: oklch(0.7 0.02 250);
+  --gridline: oklch(0.38 0.02 250);
+  --signal: oklch(0.75 0.155 65);
+  color-scheme: dark;
+}
+
+.light {
+  --void: oklch(0.97 0.005 250);
+  --surface: oklch(0.93 0.007 250);
+  --ink: oklch(0.21 0.02 250);
+  --muted: oklch(0.45 0.02 250);
+  --gridline: oklch(0.8 0.015 250);
+  --signal: oklch(0.49 0.13 60);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-void: var(--void);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-gridline: var(--gridline);
+  --color-signal: var(--signal);
+  --font-display: var(--font-clash), var(--font-hanken), sans-serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-mono: var(--font-fragment), ui-monospace, monospace;
+}
+
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--void);
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  border-radius: 1px;
+}

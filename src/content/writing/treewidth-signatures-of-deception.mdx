@@ -1,0 +1,22 @@
+---
+title: "Treewidth signatures of deception in LLMs"
+slug: treewidth-signatures-of-deception
+date: 2026-06-10
+status: draft
+abstract: "This is, to my knowledge, the first application of treewidth analysis to SAE feature circuits. I extracted 183 co-activation graphs from GPT-2 over 150 prompts spanning honest and confabulated responses. Eighteen structural measures classify the two conditions at 80% accuracy (AUC 0.851), and treewidth alone captures 78.7%. The notable part is the direction: honest computation is measurably more entangled than confabulation (Cohen's d = −1.24, p < 1e-8). Treewidth scoring is Numba-accelerated, and the full pipeline is open-sourced with reproducible configs."
+---
+
+This is a draft. The experiments are finished; the prose is not.
+
+Treewidth measures how far a graph is from being a tree, which makes it a reasonable proxy for how cleanly a computation factors. SAE feature circuits are graphs, and as far as I can tell nobody had measured their treewidth before, so I did. From GPT-2 I extracted 183 co-activation graphs over 150 prompts and asked whether graph structure alone separates honest responses from confabulated ones. It does: 18 structural measures classify the two conditions at 80% accuracy (AUC 0.851), and treewidth alone captures 78.7%. The direction is the interesting part. Honest computation is measurably more entangled than confabulation (Cohen's d = −1.24, p < 1e-8); I would have guessed the reverse. Exact treewidth is expensive to compute, so the scoring path is Numba-accelerated. The pipeline is open-sourced with reproducible configs, and the finished post will walk through it end to end.
+
+## Outline
+
+- Why treewidth is the right lens for circuit structure
+- Extracting co-activation graphs with SAELens
+- Measuring treewidth fast enough to matter (Numba)
+- What "honest is more entangled" might mean
+- Limits and confounds
+- Reproducing the result
+
+[Code on GitHub](https://github.com/SamanyuB910)

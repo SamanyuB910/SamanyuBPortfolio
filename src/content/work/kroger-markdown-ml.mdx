@@ -1,0 +1,45 @@
+---
+title: Markdown price optimization at grocery scale
+slug: kroger-markdown-ml
+order: 1
+timeframe: May 2026 – present
+org: Kroger Digital & Technology
+role: Machine Learning Engineer Intern
+summary: Markdown pricing models, the Airflow/Delta Lake data layer beneath them, and a slice-based evaluation framework for recovering margin on perishable inventory before expiry.
+metrics:
+  - label: sell-through lift
+    value: "+11%"
+    detail: projected, vs rule-based baseline across 6 categories
+  - label: stores ingested
+    value: "~180"
+    detail: daily movement, quantity-on-display, balance-on-hand
+  - label: data prep time
+    value: "-70%"
+    detail: for model experiments, vs prior ad hoc prep
+  - label: eval segments
+    value: "~36"
+    detail: category/region slices, plus invariance tests
+provisional: true
+stack: [Databricks, PySpark, Delta Lake, Airflow, MLflow, Python]
+links: []
+---
+
+## Problem
+
+Perishable grocery inventory is worth zero at expiry. Stores apply markdowns to move it before that point, but the incumbent approach was rule-based: fixed discount ladders triggered by days-to-expiry, applied uniformly. Rules lose margin in both directions — discounting too early on items that would have sold at full price, and too late on items that end up as shrink. The task is to set markdown depth and timing per item so that recovered margin is maximized before the expiry date, at chain scale.
+
+## Approach
+
+I trained markdown price-optimization models on Databricks, with the existing rule-based policy as the baseline. The models consume store-level signals — daily movement, quantity on display, and balance on hand — and produce markdown recommendations conditioned on remaining shelf life.
+
+To make experimentation repeatable, I built the production data layer underneath: an Apache Airflow-orchestrated pipeline on PySpark and Delta Lake that ingests those signals daily from stores across the chain. Previously every experiment began with ad hoc data prep; after the pipeline, prepped feature tables were a scheduled artifact rather than a per-experiment chore, which cut data-preparation time for model experiments by a large fraction.
+
+I also designed the model evaluation framework. Aggregate metrics hide too much at this scale, so evaluation is slice-based across category/region segments, with behavioral invariance tests layered on top. Example invariance: the recommended markdown must be monotonic in time-to-expiry — a model should never discount an item less as it gets closer to expiring.
+
+## Results
+
+Projected sell-through improved over the rule-based baseline across the evaluated categories; the figures in the table above are provisional while the internship is in progress. The data layer made experiment turnaround substantially faster. The slice and invariance evaluation surfaced failure modes that aggregate metrics had hidden, and those findings directly guided data curation for subsequent training runs.
+
+## Notes
+
+The headline lift is a projection from offline evaluation, not realized in-store sell-through; a real readout requires a holdout rollout that has not happened yet. Numbers on this page will be updated as they finalize.

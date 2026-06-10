@@ -1,0 +1,26 @@
+---
+title: Testing ML systems that can't crash
+slug: testing-ml-systems-that-cant-crash
+date: 2026-06-10
+status: draft
+abstract: An ML system that reprices perishable inventory has no safe failure mode. When it goes wrong, nothing throws — a bad markdown is silently destructive, and the only trace is margin that quietly disappears. This post argues that aggregate metrics are not a sufficient bar for systems whose failures are silent. The minimum bar is slice-based evaluation across category and region segments, plus behavioral invariance tests, such as requiring that markdowns be monotonic in time-to-expiry. In a production retail system I worked on, this approach surfaced real failure modes that aggregate numbers had hidden, and the same eval framework ended up guiding data curation. I sketch the checklist I now use.
+---
+
+This is a draft. The argument is in place; the prose is not.
+
+The systems I am interested in here are the ones where failure does not look like failure. An ML model that reprices perishable inventory never crashes when it is wrong. It returns a number, the number is applied to a shelf tag, and the cost shows up later as margin loss or waste — far from the model, attributed to nothing. There is no stack trace to find, which means the usual testing instincts, built around catching exceptions, do not apply.
+
+My claim is that for systems like this, slice-based evaluation is the equivalent of unit testing. An aggregate metric can look fine while a specific category in a specific region is consistently mispriced. Evaluating per-slice, across category and region segments, is what makes those failures visible at all.
+
+The second tool is behavioral invariance tests: properties the model must satisfy regardless of its accuracy. A markdown should be monotonic in time-to-expiry — an item closer to expiring should never get a smaller discount than an identical item with more shelf life. Violations are bugs even when the loss curve looks healthy.
+
+On a production retail system I worked on, this combination surfaced real failure modes and ended up guiding which data we curated next. The eval framework became the data strategy.
+
+## Outline
+
+- Failure modes that don't throw
+- Slices as unit tests
+- Invariance properties as behavioral contracts
+- What slice evals caught
+- From eval framework to data curation
+- A checklist

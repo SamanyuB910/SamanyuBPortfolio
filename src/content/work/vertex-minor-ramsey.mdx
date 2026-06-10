@@ -1,0 +1,46 @@
+---
+title: "R_vm(4) > 10: a vertex-minor Ramsey bound by exhaustion"
+slug: vertex-minor-ramsey
+order: 4
+timeframe: "Mar – Apr 2026"
+org: "Independent research"
+role: "Author"
+summary: "Proved R_vm(4) > 10 by checking all 12,005,168 non-isomorphic 10-vertex graphs for I_4 vertex-minor containment in 11 seconds, isolating 6 obstruction graphs in a single local-complementation class."
+metrics:
+  - label: graphs checked
+    value: "12,005,168"
+    detail: "all non-isomorphic 10-vertex graphs"
+  - label: wall time
+    value: "11 s"
+    detail: "full exhaustive search"
+  - label: obstruction graphs
+    value: "6"
+    detail: "one LC class, 8,712 members"
+provisional: false
+stack: [C, nauty, Python]
+links:
+  - label: Code on GitHub
+    href: https://github.com/SamanyuB910
+  - label: Motivating paper (arXiv:2602.09049)
+    href: https://arxiv.org/abs/2602.09049
+---
+
+## Problem
+
+Vertex-minor Ramsey numbers ask: how many vertices force a graph to contain a given graph as a vertex-minor? Motivated by arXiv:2602.09049, I wanted the exact status of R_vm(4) at order 10 — does every 10-vertex graph contain I_4 (the edgeless graph on 4 vertices) as a vertex-minor, or do witnesses exist? Settling this requires checking every one of the 12,005,168 non-isomorphic 10-vertex graphs. The naive obstacle is the search space: vertex-minor containment is decided over local-equivalence classes, which can be large, and the orbit walk has to be cheap enough to run twelve million times.
+
+## Approach
+
+I wrote the search in C, with graph generation handled by nauty so the input stream is provably the complete set of non-isomorphic 10-vertex graphs. For each graph I ran a BFS over its local-equivalence class, applying local complementations and testing whether any class member yields I_4 after vertex deletions. Three implementation decisions carried the performance:
+
+- **Single-XOR local complementation.** Each local complementation at a vertex is applied via precomputed toggle masks, so the adjacency update is one XOR per row rather than an edge-by-edge rewrite.
+- **Generation-counter hash sets.** Visited-set membership for the BFS uses a generation counter instead of memset, giving O(1) clearing between the twelve million independent searches.
+- **Bitwise independent-set pruning.** Candidate graphs are screened with bitwise independent-set checks before any orbit expansion, so most graphs never enter the BFS at all.
+
+## Results
+
+The full exhaustive run completes in 11 seconds. Exactly 6 graphs on 10 vertices do not contain I_4 as a vertex-minor, so R_vm(4) > 10. All 6 obstructions share a single local-complementation class of 8,712 members. A 115-test verification suite independently confirms the maximum independence number is 3 across the entire obstruction orbit, which is the property that blocks I_4 containment.
+
+## Notes
+
+The pipeline is open-sourced and reproducible end to end: nauty regenerates the graph stream, the C search re-derives the 6 obstructions, and the Python test suite re-verifies the orbit. The result is a lower bound by exhaustion; it says nothing about where R_vm(4) actually lands above 10.
