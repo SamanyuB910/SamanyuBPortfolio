@@ -10,7 +10,8 @@ Lenis smooth scroll · 2D canvas hero (NO React Three Fiber / WebGL) · MDX cont
 ## Design direction — "Elimination Order"
 Cold slate + one amber accent. Tokens: --void/--surface/--ink/--muted/--gridline/--signal (dark default, `.light` flips).
 - --gridline is DECORATIVE ONLY (≈1.9:1): never text, never outlines on interactive controls.
-- --signal (amber) budget: links, fill-in edges, clique highlights, key metrics. Keep it scarce (<~5% of pixels). Links always underlined.
+- --signal (amber) budget: links, fill-in edges, clique highlights, key metrics. Keep it scarce (<~5% of pixels).
+- Inline text links always underlined. Block-level link rows (the work/writing ledgers) and nav/back links signal interactivity via hover color instead — never rely on amber alone inside running text.
 - NO glow, blur, drop-shadow, or additive blending anywhere — one glow and the hero reads as particles.js.
 - Fragment Mono carries numbers/metrics/captions only — NEVER body copy.
 - Clash Grotesk woff2 files ship UNMODIFIED (Fontshare license forbids modification — do not subset).

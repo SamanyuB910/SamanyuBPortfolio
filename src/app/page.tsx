@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <SiteNav />
-      <main id="main">
+      <main id="main" className="scroll-mt-20">
         <Hero />
         <SelectedWork />
         <WritingList />

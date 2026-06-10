@@ -1,5 +1,6 @@
 import { site } from "@/lib/site";
 import { ContactForm } from "@/components/contact-form";
+import { Reveal } from "@/components/reveal";
 
 export function SiteFooter() {
   return (
@@ -8,7 +9,7 @@ export function SiteFooter() {
         <h2 className="font-mono text-xs tracking-widest text-muted">
           04 — contact
         </h2>
-        <div className="mt-10 grid gap-12 lg:grid-cols-12">
+        <Reveal className="mt-10 grid gap-12 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-5">
             <p className="max-w-sm text-lg leading-relaxed text-muted">
               The fastest way to reach me is email. I read everything.
@@ -55,7 +56,7 @@ export function SiteFooter() {
           <div className="lg:col-span-7">
             <ContactForm />
           </div>
-        </div>
+        </Reveal>
         <p className="mt-16 border-t border-gridline pt-6 font-mono text-xs text-muted">
           © {new Date().getFullYear()} {site.name} · Atlanta, GA · built with
           Next.js, set in Clash Grotesk, Hanken Grotesk &amp; Fragment Mono

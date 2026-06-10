@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Fragment_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import { ThemeProvider } from "next-themes";
+import { Providers } from "@/components/providers";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -43,15 +43,14 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${clash.variable} ${hanken.variable} ${fragment.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
+        <noscript>
+          <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
+        <Providers>
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-surface focus:px-3 focus:py-2 focus:text-ink"
@@ -59,7 +58,7 @@ export default function RootLayout({
             Skip to content
           </a>
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

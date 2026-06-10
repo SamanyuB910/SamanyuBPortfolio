@@ -56,11 +56,35 @@ p {
   text-wrap: pretty;
 }
 
-/* native smooth anchors until Lenis (P3); reduced-motion users keep jumps */
+/* native smooth anchors where Lenis isn't running; reduced-motion keeps jumps */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Lenis (https://lenis.dev) recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ledger hairline — visible by default; the ScrollTrigger sequence draws it */
+.ledger-rule {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: var(--gridline);
+  transform-origin: left center;
 }
 
 ::selection {
@@ -76,4 +100,10 @@ a {
   outline: 2px solid var(--signal);
   outline-offset: 3px;
   border-radius: 1px;
+}
+
+/* keep keyboard focus clear of the opaque sticky header — WCAG 2.4.11 */
+:where(a, button, input, select, textarea, summary, [tabindex]) {
+  scroll-margin-top: 5rem;
+  scroll-margin-bottom: 1rem;
 }

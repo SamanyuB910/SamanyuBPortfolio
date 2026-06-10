@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/reveal";
 
 export function About() {
   return (
@@ -9,9 +10,9 @@ export function About() {
       <h2 className="font-mono text-xs tracking-widest text-muted">
         03 — about
       </h2>
-      <div className="mt-10 grid gap-10 lg:grid-cols-12">
+      <Reveal className="mt-10 grid gap-10 lg:grid-cols-12">
         <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted lg:col-span-8">
-          <p className="border-l-2 border-signal pl-4 font-mono text-sm leading-relaxed text-ink">
+          <p className="border-l-2 border-signal pl-4 text-base leading-relaxed text-ink">
             Beat METIS on 90% of held-out factor graphs. Classified deceptive
             LLM circuits by treewidth. Checked all 12,005,168 ten-vertex graphs
             in 11 seconds.
@@ -56,7 +57,7 @@ export function About() {
             {site.skills}
           </p>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

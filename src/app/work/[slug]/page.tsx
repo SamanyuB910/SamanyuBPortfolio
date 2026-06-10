@@ -36,7 +36,7 @@ export default async function WorkPage({ params }: Props) {
   return (
     <>
       <SiteNav />
-      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
+      <main id="main" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 py-12 sm:px-8 sm:py-16">
         <Link href="/#work" className="font-mono text-xs text-muted no-underline hover:text-ink">
           ← selected work
         </Link>

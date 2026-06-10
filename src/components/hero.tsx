@@ -1,5 +1,6 @@
 import { site } from "@/lib/site";
-import { StaticGraphFigure } from "@/components/static-graph-figure";
+import { HeroFigure } from "@/components/hero-figure";
+import { StaticGraphSvg, heroCaption } from "@/components/static-graph-figure";
 
 export function Hero() {
   return (
@@ -32,7 +33,10 @@ export function Hero() {
         </div>
 
         <div className="lg:col-span-7">
-          <StaticGraphFigure />
+          <HeroFigure
+            staticSvg={<StaticGraphSvg />}
+            staticCaption={heroCaption()}
+          />
         </div>
       </div>
     </section>

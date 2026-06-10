@@ -78,7 +78,9 @@ function circuitGraph(rand) {
   for (let li = 1; li < layers.length; li++) {
     for (let j = 0; j < layers[li]; j++) {
       const node = offsets[li] + j;
-      const parents = 2 + Math.floor(rand() * 2);
+      // sparser parentage keeps the elimination clique small enough that the
+      // amber highlight stays within the scarcity budget
+      const parents = 2 + (rand() < 0.25 ? 1 : 0);
       for (let k = 0; k < parents; k++) {
         const p = offsets[li - 1] + Math.floor(rand() * layers[li - 1]);
         g.addEdge(node, p);
@@ -107,6 +109,8 @@ function minFill(g) {
   let maxClique = 0;
   let cliqueNodes = [];
 
+  const cliqueSizes = [];
+
   const fillCount = (v) => {
     const nb = [...adj[v]].filter((u) => remaining.has(u));
     let cnt = 0;
@@ -127,7 +131,9 @@ function minFill(g) {
       }
     }
     const v = best;
+    const step = order.length;
     const nb = [...adj[v]].filter((u) => remaining.has(u));
+    cliqueSizes.push(nb.length + 1);
     if (nb.length + 1 > maxClique) {
       maxClique = nb.length + 1;
       cliqueNodes = [v, ...nb];
@@ -137,14 +143,15 @@ function minFill(g) {
         if (!adj[nb[i]].has(nb[j])) {
           adj[nb[i]].add(nb[j]);
           adj[nb[j]].add(nb[i]);
-          fillEdges.push([nb[i], nb[j]]);
+          // [u, v, step at which this fill edge is created]
+          fillEdges.push([nb[i], nb[j], step]);
         }
       }
     }
     order.push(v);
     remaining.delete(v);
   }
-  return { order, fillEdges, maxClique, cliqueNodes };
+  return { order, fillEdges, maxClique, cliqueNodes, cliqueSizes };
 }
 
 // ---- Fruchterman–Reingold layout ----------------------------------------
@@ -225,6 +232,7 @@ function build(key, label, g, rand) {
     fillEdges: elim.fillEdges,
     order: elim.order,
     clique: elim.cliqueNodes,
+    cliqueSizes: elim.cliqueSizes,
     stats: { fillCount: elim.fillEdges.length, maxClique: elim.maxClique },
   };
 }

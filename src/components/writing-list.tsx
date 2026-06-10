@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getWriting } from "@/lib/content";
+import { Reveal } from "@/components/reveal";
 
 export function WritingList() {
   const posts = getWriting();
@@ -14,10 +15,11 @@ export function WritingList() {
       <ul className="mt-10">
         {posts.map((post) => (
           <li key={post.meta.slug} className="group border-t border-gridline">
-            <Link
-              href={`/writing/${post.meta.slug}`}
-              className="grid gap-x-8 gap-y-2 py-8 no-underline sm:grid-cols-[10rem_1fr]"
-            >
+            <Reveal>
+              <Link
+                href={`/writing/${post.meta.slug}`}
+                className="grid gap-x-8 gap-y-2 py-8 no-underline sm:grid-cols-[10rem_1fr]"
+              >
               <span className="font-mono text-xs text-muted">
                 {post.meta.date}
                 {post.meta.status === "draft" && (
@@ -28,11 +30,12 @@ export function WritingList() {
                 <span className="block font-display text-xl font-medium tracking-tight text-ink transition-colors group-hover:text-signal">
                   {post.meta.title}
                 </span>
-                <span className="mt-3 block text-sm leading-relaxed text-muted">
-                  {post.meta.abstract}
+                  <span className="mt-3 block text-sm leading-relaxed text-muted">
+                    {post.meta.abstract}
+                  </span>
                 </span>
-              </span>
-            </Link>
+              </Link>
+            </Reveal>
           </li>
         ))}
       </ul>
