@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local dev server log
 dev.log
+start.log
+lh-*.json
+lighthouse-*.json

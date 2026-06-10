@@ -27,7 +27,7 @@ export function WritingList() {
                 )}
               </span>
               <span className="block max-w-2xl">
-                <span className="block font-display text-xl font-medium tracking-tight text-ink transition-colors group-hover:text-signal">
+                <span className="block font-display text-xl font-semibold tracking-tight text-ink transition-colors group-hover:text-signal">
                   {post.meta.title}
                 </span>
                   <span className="mt-3 block text-sm leading-relaxed text-muted">

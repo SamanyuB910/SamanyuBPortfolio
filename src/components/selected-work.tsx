@@ -28,7 +28,7 @@ export function SelectedWork() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="block max-w-xl" data-ledger-item>
-                <span className="block font-display text-2xl font-medium tracking-tight text-ink transition-colors group-hover:text-signal">
+                <span className="block font-display text-2xl font-semibold tracking-tight text-ink transition-colors group-hover:text-signal">
                   {entry.meta.title}
                 </span>
                 <span className="mt-2 block font-mono text-xs text-muted">

@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Fragment_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { Providers } from "@/components/providers";
 import { site } from "@/lib/site";
 import "./globals.css";
 
+// single display weight — every Clash setting is semibold, which keeps one
+// font file (and one preload) off the LCP critical path
 const clash = localFont({
-  src: [
-    { path: "../fonts/ClashGrotesk-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../fonts/ClashGrotesk-Semibold.woff2", weight: "600", style: "normal" },
-  ],
+  src: "../fonts/ClashGrotesk-Semibold.woff2",
+  weight: "600",
   variable: "--font-clash",
   display: "swap",
 });
@@ -26,12 +26,31 @@ const fragment = Fragment_Mono({
   subsets: ["latin"],
   variable: "--font-fragment",
   display: "swap",
+  // captions/metrics only — keep it off the LCP critical path
+  preload: false,
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: site.title,
   description: site.description,
+  openGraph: {
+    title: site.title,
+    description: site.description,
+    url: site.url,
+    siteName: site.name,
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#13161e",
 };
 
 export default function RootLayout({
